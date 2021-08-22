@@ -1,0 +1,25 @@
+.launch {
+  width: calc(100vw - 120px);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: aqua;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 10px;
+}
+
+.listLeftColumn {
+  width: 80%;
+  display: flexbox;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+.lustRightColumn {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
