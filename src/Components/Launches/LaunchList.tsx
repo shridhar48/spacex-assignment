@@ -24,8 +24,6 @@ const LaunchList = () => {
       variables && variables.offset > 0
         ? setLaunches([...launches, ...data.launchesPast])
         : setLaunches([...data.launchesPast]);
-      console.log('Current Data is :', data);
-      console.log('Current Variables are :', variables);
     },
     onError: () => {
       console.log('Something went wrong');
@@ -47,16 +45,11 @@ const LaunchList = () => {
     setSearchString(event.target.value);
   };
 
-  useEffect(() => {
-    console.log('Updated :', compareLaunchList);
-  }, [compareLaunchList]);
-
   const updateAtLaunchList = (launches: Launch[]) => {
     setCompareLaunchList([...launches]);
   };
 
   const compare = () => {
-    console.log('Compare');
     history.push({
       pathname: '/compare',
       state: {

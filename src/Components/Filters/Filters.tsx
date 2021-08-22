@@ -19,7 +19,6 @@ const Filters = ({
   searchString,
   compareLaunchList,
 }: Props) => {
-  console.log('Inside filters :', compareLaunchList);
   return (
     <div className='filterContainer'>
       <div className='searchOptions' onChange={onChangeValue}>

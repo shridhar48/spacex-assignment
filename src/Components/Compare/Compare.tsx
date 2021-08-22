@@ -7,9 +7,6 @@ const Compare = () => {
   const location = useLocation<LocationState>();
   const launch1: Launch = location.state.detail[0];
   const launch2: Launch = location.state.detail[1];
-  useEffect(() => {
-    console.log('Location ', location.state.detail);
-  }, [location]);
 
   const getTitles = (key: string) => {
     return (

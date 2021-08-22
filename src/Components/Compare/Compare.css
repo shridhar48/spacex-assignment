@@ -45,6 +45,7 @@
 
 .middleColumn {
   width: 30%;
+  padding-right: 5px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -53,6 +54,7 @@
 
 .rightColumn {
   width: 30%;
+  padding-right: 5px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

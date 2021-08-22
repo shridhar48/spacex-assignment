@@ -1,4 +1,4 @@
-import { useState, useEffect, MouseEventHandler } from 'react';
+import { useState, useEffect } from 'react';
 
 import './LaunchItem.css';
 
@@ -18,10 +18,6 @@ const LaunchItem = ({
   updateAtLaunchList,
 }: Props): JSX.Element => {
   const [checkListUpdated, setCheckListUpdated] = useState<boolean>(false);
-
-  useEffect(() => {
-    console.log('compareLaunchListlocal :', checkListUpdated);
-  }, [checkListUpdated]);
 
   const updateCompareList = (launchid: string) => {
     if (checkBoxList.some((launch) => launch.id === launchid)) {
@@ -62,7 +58,6 @@ const LaunchItem = ({
               : true
           }
           value={launch.id}
-          // onClick={updateCompareList()}
           onChange={() => {
             updateCompareList(launch.id);
           }}
