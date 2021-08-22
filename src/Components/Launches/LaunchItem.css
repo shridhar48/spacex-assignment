@@ -1,5 +1,5 @@
 .launch {
-  width: 90vw;
+  width: calc(100vw - 120px);
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -1,13 +1,47 @@
+import { useState, useEffect, MouseEventHandler } from 'react';
+
 import './LaunchItem.css';
 
 import { Launch } from '../../Interfaces';
 
 type Props = {
   launch: Launch;
-  addToCompare: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  compareLaunchList: Launch[];
+  updateAtLaunchList: (launches: Launch[]) => void;
 };
 
-const LaunchItem = ({ launch, addToCompare }: Props): JSX.Element => {
+let checkBoxList: Launch[] = [];
+
+const LaunchItem = ({
+  launch,
+  compareLaunchList,
+  updateAtLaunchList,
+}: Props): JSX.Element => {
+  const [checkListUpdated, setCheckListUpdated] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log('compareLaunchListlocal :', checkListUpdated);
+  }, [checkListUpdated]);
+
+  const updateCompareList = (launchid: string) => {
+    if (checkBoxList.some((launch) => launch.id === launchid)) {
+      checkBoxList.splice(
+        checkBoxList.findIndex((launch) => launch.id === launchid),
+        1
+      );
+      setCheckListUpdated(!checkListUpdated);
+      updateAtLaunchList(checkBoxList);
+    } else {
+      if (checkBoxList.length === 2) {
+        alert('Please remove one selected Launch');
+      } else {
+        checkBoxList = [...checkBoxList, ...[launch]];
+        setCheckListUpdated(!checkListUpdated);
+        updateAtLaunchList(checkBoxList);
+      }
+    }
+  };
+
   return (
     <div className='launch'>
       <div className='listLeftColumn'>
@@ -20,8 +54,18 @@ const LaunchItem = ({ launch, addToCompare }: Props): JSX.Element => {
           type='checkbox'
           id={launch.id}
           name='Add to Copare'
+          disabled={
+            checkBoxList.length < 2
+              ? false
+              : checkBoxList.includes(launch)
+              ? false
+              : true
+          }
           value={launch.id}
-          onChange={addToCompare}
+          // onClick={updateCompareList()}
+          onChange={() => {
+            updateCompareList(launch.id);
+          }}
         />{' '}
         Add To Compare
       </div>

@@ -9,6 +9,7 @@ import { Launch, Launches, LaunchesVars } from '../../Interfaces';
 
 import './LaunchList.css';
 import { QUERY_LIMIT } from '../../constants';
+import { useHistory } from 'react-router-dom';
 
 const LaunchList = () => {
   const [getLaunches, { loading, variables }] = useLazyQuery<
@@ -36,6 +37,8 @@ const LaunchList = () => {
   const [launches, setLaunches] = useState<Launch[]>([]);
   const [compareLaunchList, setCompareLaunchList] = useState<Launch[]>([]);
 
+  const history = useHistory();
+
   const onChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchBasedOn(event.target.value);
   };
@@ -44,32 +47,22 @@ const LaunchList = () => {
     setSearchString(event.target.value);
   };
 
-  const addToCompare = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('New entry is :', event.target.value);
-    if (compareLaunchList.some((launch) => launch.id === event.target.value)) {
-      const currentList = compareLaunchList;
-      currentList.splice(
-        currentList.findIndex((launch) => launch.id === event.target.value),
-        1
-      );
-      setCompareLaunchList(currentList);
-      console.log('Object found inside the array so removed it .', currentList);
-    } else {
-      if (compareLaunchList.length === 2) {
-        alert('Please remove one selected Launch');
-      } else {
-        const currentList = compareLaunchList;
-        const requiredLaunch = launches.filter(function (launch: Launch) {
-          return launch.id === event.target.value;
-        });
-        currentList.push(requiredLaunch[0]);
-        setCompareLaunchList(currentList);
-        console.log(
-          'Object was not found inside the array so added it .',
-          currentList
-        );
-      }
-    }
+  useEffect(() => {
+    console.log('Updated :', compareLaunchList);
+  }, [compareLaunchList]);
+
+  const updateAtLaunchList = (launches: Launch[]) => {
+    setCompareLaunchList([...launches]);
+  };
+
+  const compare = () => {
+    console.log('Compare');
+    history.push({
+      pathname: '/compare',
+      state: {
+        detail: compareLaunchList,
+      },
+    });
   };
 
   useEffect(() => {
@@ -94,42 +87,64 @@ const LaunchList = () => {
     });
   };
 
-  if (loading && (!variables || (variables && variables.offset === 0))) {
-    return <h4>Loading...</h4>;
-  }
+  const getBottomButton = () => {
+    if (loading && variables && variables.offset !== 0 && launches.length > 0) {
+      return <div className='loader'></div>;
+    } else if (loadMoreAvailable) {
+      return (
+        <button
+          onClick={() => loadNextOffset(false)}
+          className='LoadMoreButton'
+        >
+          Load More
+        </button>
+      );
+    }
+  };
 
-  if (launches && launches.length > 0) {
+  if (loading && (!variables || (variables && variables.offset === 0))) {
     return (
-      <div className='container'>
-        <Filters
-          onChangeValue={onChangeValue}
-          setSearchKey={setSearchKey}
-          loadNextOffset={loadNextOffset}
-          searchBasedOn={searchBasedOn}
-          searchString={searchString}
-        />
-        {launches.map((launch: Launch) => {
-          return (
-            <LaunchItem
-              key={launch.id}
-              launch={launch}
-              addToCompare={addToCompare}
-            />
-          );
-        })}
-        {loadMoreAvailable && (
-          <button
-            onClick={() => loadNextOffset(false)}
-            className='LoadMoreButton'
-          >
-            Load More
-          </button>
-        )}
+      <div className='mainLoader'>
+        {' '}
+        <div className='loader'></div>;
       </div>
     );
   }
 
-  return <div>Something went wrong</div>;
+  if (launches && launches.length > 0) {
+    return (
+      <div className='listContainer'>
+        <Filters
+          onChangeValue={onChangeValue}
+          setSearchKey={setSearchKey}
+          loadNextOffset={loadNextOffset}
+          compare={compare}
+          compareLaunchList={compareLaunchList}
+          searchBasedOn={searchBasedOn}
+          searchString={searchString}
+        />
+        <div className='launchList'>
+          {launches.map((launch: Launch) => {
+            return (
+              <LaunchItem
+                key={launch.id}
+                launch={launch}
+                compareLaunchList={compareLaunchList}
+                updateAtLaunchList={updateAtLaunchList}
+              />
+            );
+          })}
+        </div>
+        {getBottomButton()}
+      </div>
+    );
+  }
+
+  return (
+    <div className='mainLoader'>
+      <div>No Results Found!!!</div>
+    </div>
+  );
 };
 
 export default LaunchList;

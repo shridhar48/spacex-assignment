@@ -1,21 +1,27 @@
+import { Launch } from '../../Interfaces';
 import './Filters.css';
 type Props = {
   onChangeValue: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setSearchKey: (event: React.ChangeEvent<HTMLInputElement>) => void;
   loadNextOffset: (onSearch: boolean) => void;
+  compare: () => void;
   searchBasedOn: string;
   searchString: string;
+  compareLaunchList: Launch[];
 };
 
 const Filters = ({
   onChangeValue,
   setSearchKey,
   loadNextOffset,
+  compare,
   searchBasedOn,
   searchString,
+  compareLaunchList,
 }: Props) => {
+  console.log('Inside filters :', compareLaunchList);
   return (
-    <div>
+    <div className='filterContainer'>
       <div className='searchOptions' onChange={onChangeValue}>
         <input
           type='checkbox'
@@ -46,6 +52,13 @@ const Filters = ({
           Search
         </button>
       </div>
+      {compareLaunchList.length === 2 && (
+        <div className='compareButtonContainer'>
+          <button onClick={() => compare()} className='LoadMoreButton'>
+            Compare
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,0 +1,60 @@
+.compareContainer {
+  display: flex;
+  background-color: aqua;
+  width: 100vw;
+  height: 100vh;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding-right: 5px;
+}
+
+.titleRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  font-weight: bold;
+  border-bottom: 2px solid coral;
+  justify-content: space-between;
+}
+
+.valueRow {
+  padding: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-bottom: 2px solid coral;
+  align-items: flex-start;
+}
+
+.leftColumn {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-weight: bold;
+}
+
+.middleColumn {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.rightColumn {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}

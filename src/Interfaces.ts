@@ -44,3 +44,7 @@ export interface LaunchesVars {
 export interface Launches {
   launchesPast: Launch[];
 }
+
+export interface LocationState {
+  detail: Launch[];
+}
